@@ -23,126 +23,143 @@
 <body>
     <div class="container-fluid">
         <div class="main">
-
-            <div class="leftSide">
-                <div class="leftPanel flexCol">
-                    <header>
-                        <h5>ESAR partner mapping</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore iusto sed voluptate tenetur et maiores assumenda, quaerat accusantium ipsam ad dolorum suscipit eius officia corrupti mollitia.</p>
-                        <p class="source">Data as of 10/06/2022</p>
-                    </header>
-                    <div class="item-list">
+            <div class="panels">
+                <div class="left-panel panel panel-padding">
+                    <div class="viz-head">
+                        <header>
+                            <h4>ESAR partner mapping</h4>
+                            <p>Eastern and Southern Africa region RCCE partner and activity mapping.</p>
+                            <p class="source">Data as of 10/06/2022</p>
+                            <p></p>
+                        </header>
                         <section>
                             <div class="dropdown flexCol">
-                                <h6 id="h6Fix"><label for="">Display by</label></h6>
+                                <span><label for="displayBySelect">Display by</label></span>
                                 <select id="displayBySelect">
-                                    <option value="activity" selected>Activity</option>
-                                    <option value="partner">Partner</option>
-                                    <!-- <option value="location">Location</option> -->
+                                    <option value="partner" selected>Partner</option>
+                                    <option value="activity">Activity</option>
                                 </select>
+                            </div>
+                            <div class="view-details">
+                                <label>
+                                    <input type="checkbox" id="viewDetails" checked>
+                                    Activities & Partner details
+                                </label>
                             </div>
                         </section>
                         <section>
                             <div class="main-filters">
+                                <span><label for="parentFilters"> Filter by emergency</label></span>
                                 <div class="parentFilters"></div>
                             </div>
                         </section>
-                        <section>
-                            <div class="content parent">
-                                <h6 id="h6Fix">Activity list</h6>
+                    </div>
+
+                    <section>
+                        <div class="content parent listing-pane">
+                            <div class="panel-header">
+                                <div class="head">
+                                    <h6>Partners</h6>
+                                </div>
                                 <div class="item-selections">
                                     <button class="select-reset">Clear selection</button>
                                     <button class="select-all">Select all</button>
                                 </div>
-                                <main>
-                                    <ul class="collection-item"></ul>
-                                </main>
-
                             </div>
-                        </section>
-                    </div>
 
-                </div>
-                <div class="contentPanel" id="contentPanel">
-                    <div class="content flexCol child">
-                        <h6 id="h6Fix">Partner</h6>
-                        <section>
-                            <div class="second-filters">
-                                <div class="childrenFilters"></div>
-                            </div>
-                        </section>
-                        <div class="children-selections">
-                            <button class="select-reset">Clear selection</button>
-                            <button class="select-all">Select all</button>
-                        </div>
-
-                        <section>
-                            <div class="mainContent">
-                                <main>
-                                    <ul class="children"></ul>
-                                </main>
-
-                            </div>
-                        </section>
-                    </div>
-                </div>
-
-                <div class="map">
-                    <div class="map-filter"></div>
-                    <div id="map">
-                        <div class="zoom-controls">
-                            <button id="zoom_in">+</button>
-                            <button id="zoom_out">-</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end leftSide -->
-            <div class="rightSide">
-                <div class="details">
-
-                    <div class="metrics">
-                        <header>
-                            <h6>Overall</h6>
-                        </header>
-                        <section>
-                            <div class="metrics-stats">
-                                <div class="keyFigures">
-                                    <div class="figure">
-                                        <div id="number1" class="number">1234</div>
-                                        <div id="desc1" class="desc">orgs</div>
-                                    </div>
-                                    <div class="figure">
-                                        <div id="number2" class="number">1234</div>
-                                        <div id="desc2" class="desc">countries</div>
-                                    </div>
+                            <div class="item-list">
+                                <div class="contentparent">
+                                    <main>
+                                        <ul class="collection-item"></ul>
+                                    </main>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                    </section>
+                    <div class="submit">
+                        <button class="submit kobo-form">
+                            <i class="fa fa-plus" aria-hidden="true"></i>Add activity
+                        </button>
                     </div>
-                    <div class="metrics">
-                        <header>
-                            <h6>Target Population</h6>
-                        </header>
-                        <section>
-                            <div class="metrics-stats">
-                                <div class="target-pop"></div>
+                </div>
+                <div class="right-panel panel panel-padding">
+                    <div class="hidden" id="hide">
+                        <div class="panelContentCentered listing-pane">
+                            <div class="panel-header">
+                                <div class="head">
+                                    <h6>Activity List</h6>
+                                </div>
+                                <div class="children-selections">
+                                    <button class="select-reset">Clear selection</button>
+                                    <button class="select-all">Select all</button>
+                                </div>
                             </div>
-                        </section>
-                    </div>
-                    <div class="metrics">
-                        <header>
-                            <h6>Contact</h6>
-                        </header>
-                        <section>
-                            <div class="metrics-stats">
-                                <div class="contact-details"></div>
+                            <div class="mainContent">
+                                <div class="childrenContent">
+                                    <main>
+                                        <ul class="children"></ul>
+                                    </main>
+                                </div>
                             </div>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- end rightSide -->
+            <div class="central-area">
+                <div class="top panel-h panel-padding">
+                    <div class="details">
+                        <div class="overview">
+                            <div class="logos" id="overview">
+                                <img src="" alt="" id="logo" class="hidden">
+                                <h5>Overview</h5>
+                            </div>
+                            <div class="keyFigures metrics" id="metrics">
+                                <div class="figure">
+                                    <div id="numberOrg" class="number"></div>
+                                    <div id="desc1" class="desc">orgs</div>
+                                </div>
+                                <div class="figure">
+                                    <div id="numberCountry" class="number"></div>
+                                    <div id="desc2" class="desc">countries</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reset-map-btn" id="map-filters">
+                            <button class="reset-map">Reset map</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="middle panel-padding">
+                    <div class="map">
+                        <div id="map">
+                            <div class="zoom-controls">
+                                <button id="zoom_in">+</button>
+                                <button id="zoom_out">-</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="extreme-right-panel">
+                <div class="orgActDetails panel-padding">
+                    <div id="tutorial">
+                        <h6>Get started</h6>
+                        <ol>
+                            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium commodi magnam illo odio</li>
+                            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium commodi magnam illo odio</li>
+                            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium commodi magnam illo odio</li>
+                        </ol>
+                    </div>
+                    <div class="hidden" id="projectDetails">
+                        <div class="projectDetails">
+                            <div class="reports"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script type='text/javascript' src='js/bundle.js'></script>

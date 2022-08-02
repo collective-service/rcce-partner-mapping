@@ -1,6 +1,7 @@
 //BRR
 let geodataUrl = 'data/esar.json';
-let fourWDataUrl = 'data/data.csv';
+// let fourWDataUrl = 'data/data.csv';
+let fourWDataUrl = 'https://raw.githubusercontent.com/ndongamadu/cs-kobo-scraper/main/data_regional4W.csv';
 let configFileURL = 'data/config.json';
 let geomData,
     mappingData,
@@ -9,7 +10,7 @@ let geomData,
 
 let parentsDefaultListArr = [],
     childrenDefaultListArr = [];
-let displayBy = "activity";
+let displayBy = "partner";
 
 $(document).ready(function() {
     function getData() {
@@ -19,21 +20,20 @@ $(document).ready(function() {
             d3.json(configFileURL)
         ]).then(function(data) {
             geomData = topojson.feature(data[0], data[0].objects.ESAR);
-            console.log(geomData)
             mappingData = data[1];
             filteredMappingData = mappingData;
             config = data[2];
-            console.log(filteredMappingData)
 
-            parentsDefaultListArr = getColumnUniqueValues("Activity");
-            childrenDefaultListArr = uniqueValues("Partner_short");
+            parentsDefaultListArr = getColumnUniqueValues("Partner_short");
+            childrenDefaultListArr = uniqueValues("Activity");
 
-            createMainFiltersTag("parentFilters", []);
+            createMainFiltersTag("parentFilters");
             // createMainFiltersTag("childrenFilters", []);
             createPanelListItems();
-            createChildrenPanel();
+            // createChildrenPanel();
 
             initiateMap();
+            setUpdateKeyFigures();
             setMetricsPanels();
             //remove loader and show vis
             $('.loader').hide();
@@ -50,63 +50,8 @@ $('#displayBySelect').on("change", function(d) {
     resetToDefault();
 
     //update map and metrics
-})
+});
 
-function resetToDefault() {
-    d3.select(".parentFilters").selectAll("span").classed("is-selected", false);
-    d3.select(".collection-item").selectAll("li").classed("is-selected", false);
-    d3.select(".children").selectAll("li").classed("is-selected", false);
-
-    countrySelectedFromMap = "";
-
-    // createMapFilterSpan();
-    $(".map-filter").html("");
-
-    const listParentTitle = displayBy == "activity" ? "Activity list" : "Partner list";
-    const listChildTitle = displayBy == "activity" ? "Partner list" : "Activity list";
-    $(".parent h6").text(listParentTitle);
-    $(".child h6").text(listChildTitle);
-
-    // updateDataFromFilters(); 
-    filteredMappingData = mappingData;
-
-    // updateViz();
-    parentsDefaultListArr = getUpdatedParentArr();
-    childrenDefaultListArr = getUpdatedChildrenArr();
-
-    createPanelListItems();
-    createChildrenPanel();
-
-    choroplethMap();
-    setMetricsPanels();
-} //resetToDefault
-
-function createMainFiltersTag(className) {
-    const arr = uniqueValues("Partner_filtres_tag");
-    const cleanedArr = formatArray(arr);
-
-    $("." + className).html('');
-    var spans = '';
-    for (let index = 0; index < cleanedArr.length; index++) {
-        const element = cleanedArr[index];
-        spans += '<span class="tagLook tag">' + element + '</span>';
-    }
-    $("." + className).append(spans);
-
-    $("." + className + " span").on("click", function(d) {
-        const isSelected = $(this).hasClass('is-selected');
-        if (!isSelected) {
-            $(this).addClass('is-selected');
-        } else {
-            $(this).removeClass('is-selected');
-        }
-        // remove parent selections!
-        updateDataFromFilters();
-
-        updateViz();
-
-    });
-} //createMainFiltersTag
 
 // parents clear or select all buttons
 $(".item-selections button").on("click", function(d) {
@@ -115,11 +60,26 @@ $(".item-selections button").on("click", function(d) {
         $(".collection-item li").each(function(index, li) {
             !$(li).hasClass('is-selected') ? $(li).addClass('is-selected') : null;
         });
+        // show children pane
+        d3.select("#hide").classed("hidden", false);
+
+        // right toggle
+        d3.select("#tutorial").classed("hidden", true);
+        d3.select("#projectDetails").classed("hidden", false);
 
     } else {
         $(".collection-item li").each(function(index, li) {
             $(li).hasClass('is-selected') ? $(li).removeClass('is-selected') : null;
         });
+        // hide children pane
+        d3.select("#hide").classed("hidden", true);
+        if (countrySelectedFromMap != "") {
+            d3.select("#hide").classed("hidden", false);
+        }
+
+        // right toggle
+        d3.select("#tutorial").classed("hidden", false);
+        d3.select("#projectDetails").classed("hidden", true);
     }
     // clear filters
     //call reset viz?
@@ -129,7 +89,9 @@ $(".item-selections button").on("click", function(d) {
     const childrenArr = getUpdatedChildrenArr();
     createChildrenPanel(childrenArr);
 
+
     choroplethMap();
+    setUpdateKeyFigures();
     setMetricsPanels();
     // update map and metrics
 })
@@ -153,123 +115,52 @@ $(".children-selections button").on("click", function(d) {
     updateDataFromFilters();
 
     choroplethMap();
+    setUpdateKeyFigures();
     setMetricsPanels();
     // update map and metrics
 })
 
-function getSelectedItemFromUl(className) {
-    var items = $("." + className + " li");
-    var selections = [];
-    items.each(function(idx, li) {
-        const isSelected = $(li).hasClass('is-selected');
-        const selection = d3.select(this).selectAll(".item").select("h6").text();
-        isSelected ? selections.push(selection) : null;
-    });
-    return selections;
-} //getSelectedItemFromUl
+function resetToDefault() {
+    d3.select(".parentFilters").selectAll("span").classed("is-selected", false);
+    d3.select(".collection-item").selectAll("li").classed("is-selected", false);
+    d3.select(".children").selectAll("li").classed("is-selected", false);
 
+    // hide children pane
+    d3.select("#hide").classed("hidden", true);
 
-function getSelectedFilters() {
-    var items = $(".parentFilters span");
-    var selections = [];
-    items.each(function(idx, span) {
-        const isSelected = $(span).hasClass('is-selected');
-        isSelected ? selections.push($(span).text()) : null;
-    });
-    return selections;
-} //getSelectedFilters
+    // right toggle
+    d3.select("#tutorial").classed("hidden", false);
+    d3.select("#projectDetails").classed("hidden", true);
 
-function createPanelListItems(arr = parentsDefaultListArr) {
-    $(".collection-item").html('');
-    var lis = [];
-    for (let index = 0; index < arr.length; index++) {
-        const element = arr[index];
-        lis += '<li>' +
-            '<div class="item">' +
-            '<h6>' + element + '</h6>' +
-            '<div class="contenu">' +
-            '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>' +
-            '</div></div>' +
-            '</li>';
-    }
-    $(".collection-item").append(lis);
+    countrySelectedFromMap = "";
 
-    $(".collection-item li").on("click", function(d) {
-        const isSelected = $(this).hasClass('is-selected');
-        if (!isSelected) {
-            $(this).addClass('is-selected');
-        } else {
-            $(this).removeClass('is-selected');
-        }
-        // remove children selection
-        d3.select(".children").selectAll("li").classed("is-selected", false);
+    // createMapFilterSpan();
+    $(".map-filter").html("");
 
-        updateDataFromFilters();
-        const childrenArr = getUpdatedChildrenArr();
-        // console.log(childrenArr)
-        createChildrenPanel(childrenArr);
+    const listParentTitle = displayBy == "activity" ? "Activity list" : "Partner list";
+    const listChildTitle = displayBy == "activity" ? "Partner list" : "Activity list";
+    $(".parent h6").text(listParentTitle);
+    // $(".child h6").text(listChildTitle);
+    $(".panelContentCentered h6").text(listChildTitle);
 
-        choroplethMap();
-        setMetricsPanels();
-    });
-} //createPanelListItems
+    // updateDataFromFilters(); 
+    filteredMappingData = mappingData;
 
-function createChildrenPanel(arr = childrenDefaultListArr) {
+    // updateViz();
+    parentsDefaultListArr = getUpdatedParentArr();
+    childrenDefaultListArr = getUpdatedChildrenArr();
 
-    $(".children").html('');
-    var lis = [];
-    for (let index = 0; index < arr.length; index++) {
-        const element = arr[index];
-        var p = "Lorem ipsum dolor sit amet consectetur adipisicing elit";
+    createPanelListItems();
+    // createChildrenPanel();
 
-        lis += '<li>' +
-            '<div class="item">' +
-            '<h6>' + element + '</h6>' +
-            '<div class="contenu">' +
-            '<p>' + p + '</p>' +
-            '</div>' +
-            '</li>';
-    }
-    $(".children").append(lis);
+    choroplethMap();
+    setUpdateKeyFigures();
+    setMetricsPanels();
+} //resetToDefault
 
-    $(".children li").on("click", function(d) {
-        const isSelected = $(this).hasClass('is-selected');
-        if (!isSelected) {
-            $(this).addClass('is-selected');
-        } else {
-            $(this).removeClass('is-selected');
-        }
+// Global functions 
 
-        updateDataFromFilters();
-        choroplethMap();
-        setMetricsPanels();
-        //update metrics
-
-    });
-} //createChildrenPanel
-
-// get each item p value
-function getItemsDetails(whoCalled = "parent", item) {
-    var p = "Lorem ipsum dolor sit amet consectetur adipisicing elit";
-    if (whoCalled == "child") {
-        const detailsCol = displayBy == "activity" ? "Partner" : "Activity";
-        var detailArr,
-            p;
-        if (displayBy == "activity") {
-            for (let index = 0; index < filteredMappingData.length; index++) {
-                const val = filteredMappingData[index];
-                if (val[config.Partner_short] == item) {
-                    detailArr = val;
-                    break;
-                }
-            }
-            p = detailArr[config[detailsCol]];
-        }
-    }
-    return p;
-} //getItemsDetails
-
-function getColumnUniqueValues(columnName, data = filteredMappingData, splitChart = " ") {
+function getColumnUniqueValues(columnName, data = filteredMappingData, splitChart = "|") {
     var returnArr = [];
     data.forEach(element => {
         var arr = element[config[columnName]].split(splitChart);
@@ -310,31 +201,20 @@ function uniqueValues(columnName, data = filteredMappingData) {
     return arr;
 }
 
-function formatArray(arr) {
-    var items = [];
-    var trimedArr = arr.map(x => x.trim());
-    for (let index = 0; index < trimedArr.length; index++) { //remove empty elements
-        if (trimedArr[index]) {
-            items.push(trimedArr[index]);
-        }
-    }
-    return items;
-} // formatArray
+function findOneValue(emergenciesArrTest, arr) {
+    return arr.some(function(v) {
+        return emergenciesArrTest.indexOf(v) >= 0;
+    });
+};
 
 function splitMultiValues(arr) {
-    const splitArr = arr.split(" ");
+    const splitArr = arr.split("|");
     var values = [];
     for (let index = 0; index < splitArr.length; index++) {
         values.push(splitArr[index]);
     }
     return values;
 } //splitMultiValues
-
-function findOneValue(emergenciesArrTest, arr) {
-    return arr.some(function(v) {
-        return emergenciesArrTest.indexOf(v) >= 0;
-    });
-};
 
 function sortNestedData(a, b) {
     if (a.value > b.value) {
@@ -345,6 +225,88 @@ function sortNestedData(a, b) {
     }
     return 0;
 } //sortNestedData
+
+function getNestedDataByColumn(col, data = filteredMappingData) {
+    var data = d3.nest()
+        .key(function(d) { return d[config[col]]; })
+        .rollup(function(d) { return d.length; })
+        .entries(data).sort(sortNestedData);
+    return data;
+} //getNestedDataByColumn
+
+function formatArray(arr) {
+    var items = [];
+    var trimedArr = arr.map(x => x.trim());
+    for (let index = 0; index < trimedArr.length; index++) { //remove empty elements
+        if (trimedArr[index] && trimedArr[index] != "nan") {
+            items.push(trimedArr[index]);
+        }
+    }
+    return items;
+} // formatArray
+
+function createMainFiltersTag(className) {
+    const arr = uniqueValues("Partner_filtres_tag");
+    const cleanedArr = formatArray(arr);
+
+    $("." + className).html('');
+    var spans = '';
+    for (let index = 0; index < cleanedArr.length; index++) {
+        const element = cleanedArr[index];
+        spans += '<span class="tagLook tag">' + element + '</span>';
+    }
+    $("." + className).append(spans);
+
+    $("." + className + " span").on("click", function(d) {
+        const isSelected = $(this).hasClass('is-selected');
+        if (!isSelected) {
+            $(this).addClass('is-selected');
+        } else {
+            $(this).removeClass('is-selected');
+        }
+        // remove parent selections!
+        updateDataFromFilters();
+
+        updateViz();
+
+    });
+} //createMainFiltersTag
+
+function getDetails(from = "parent", item) {
+    if (from == "children") {
+        return config.Activity_desc[item];
+    }
+    var record;
+    for (let index = 0; index < mappingData.length; index++) {
+        const val = mappingData[index];
+        if (val[config.Partner_short] == item) {
+            record = val;
+            break;
+        }
+    }
+    return record;
+}
+
+function getSelectedFilters() {
+    var items = $(".parentFilters span");
+    var selections = [];
+    items.each(function(idx, span) {
+        const isSelected = $(span).hasClass('is-selected');
+        isSelected ? selections.push($(span).text()) : null;
+    });
+    return selections;
+} //getSelectedFilters
+
+function getSelectedItemFromUl(className) {
+    var items = $("." + className + " li");
+    var selections = [];
+    items.each(function(idx, li) {
+        const isSelected = $(li).hasClass('is-selected');
+        const selection = d3.select(this).selectAll(".item").select("h6").text();
+        isSelected ? selections.push(selection) : null;
+    });
+    return selections;
+} //getSelectedItemFromUl
 
 function updateDataFromFilters() {
     var data = mappingData;
@@ -387,68 +349,6 @@ function updateDataFromFilters() {
     return;
 } //updateDataFromFilters
 
-// metrics 
-
-const targetMinColor = "red",
-    targetMaxcolor = "white";
-
-function setMetricsPanels(data = filteredMappingData) {
-    const countriesArr = uniqueValues("Country", data);
-    const orgsArr = uniqueValues("Partner", data);
-    //overall
-    d3.select('.keyFigures').select('#number1').text(orgsArr.length);
-    d3.select('.keyFigures').select('#number2').text(countriesArr.length);
-
-    //target population
-    const targetArr = getColumnUniqueValues("Target", data);
-    var targetColors = d3.scaleSequential()
-        .domain([targetArr.length, 0])
-        .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9 
-
-    $('.target-pop').html('');
-
-    d3.select(".target-pop")
-        .selectAll("span")
-        .data(targetArr).enter()
-        .append("span")
-        .style("background", function(d, i) {
-            return targetColors(i);
-        })
-        .text(function(d) { return d; });
-
-    // contact
-    $('.contact-details').html('<p>Select a partner!</p>');
-    var contact = "<p>Select a partner!</p>"
-    if (displayBy == "activity") {
-        //contact should display if a children is-selected
-        var selectedOrg = "";
-        const selectedChild = getSelectedItemFromUl("children");
-        if (selectedChild.length == 1) {
-            selectedOrg = selectedChild[0];
-        }
-
-    } else {
-        // contact should display if a parent is selected
-        const selectedParent = getSelectedItemFromUl("collection-item");
-        if (selectedParent.length == 1) {
-            selectedOrg = selectedParent[0];
-        }
-    }
-    if (selectedOrg != "") {
-        for (let index = 0; index < filteredMappingData.length; index++) {
-            const val = filteredMappingData[index];
-            if (val[config.Partner_short] == selectedOrg) {
-                contact = '<div class="name">' + val[config.Contact_name] + '</div>' +
-                    '<div class="role">' + val[config.Contact_role] + '</div>' +
-                    '<div class="email">E-mail</div>';
-                break;
-            }
-        }
-
-    }
-    $('.contact-details').html(contact);
-} //setMetricsPanels
-
 function getUpdatedChildrenArr(data) {
     var arr;
     if (displayBy == "activity") {
@@ -469,16 +369,220 @@ function getUpdatedParentArr(data) {
     return arr;
 } //getUpdatedParentArr
 
+// gets the list of emergency per activity
+function getEmergencyTagArr(pArr, cArr) {
+    // const outbreakArr = getColumnUniqueValues(config.Partner_filtres_tag);
+    // const arr = uniqueValues(config.Partner_filtres_tag);
+    // console.log(outbreakArr)
+    // console.log(arr)
+    console.log(filteredMappingData)
+    var tagsArr = [];
+    if (pArr.length == 1) {
+
+    }
+
+}
+
+// =====
+
+function createPanelListItems(arr = parentsDefaultListArr) {
+    $(".collection-item").html('');
+    const hiddenClass = (!d3.select("#viewDetails").property("checked")) ? "hidden" : '';
+    var lis = [];
+    for (let index = 0; index < arr.length; index++) {
+        const p = (displayBy == "activity") ? getDetails("children", arr[index]) : getDetails("", arr[index])[config.Partner];
+        lis += '<li>' +
+            '<div class="item">' +
+            '<h6>' + arr[index] + '</h6>' +
+            '<div class="contenu ' + hiddenClass + '">' +
+            '<p>' + p + '</p>' +
+            '</div></div>' +
+            '</li>';
+    }
+    $(".collection-item").append(lis);
+
+    $(".collection-item li").on("click", function(d) {
+        const isSelected = $(this).hasClass('is-selected');
+        if (!isSelected) {
+            $(this).addClass('is-selected');
+        } else {
+            $(this).removeClass('is-selected');
+        }
+        // remove children selection
+        d3.select(".children").selectAll("li").classed("is-selected", false);
+        const parentSelection = getSelectedItemFromUl("collection-item");
+
+        updateDataFromFilters();
+
+        choroplethMap();
+        setUpdateKeyFigures();
+        setMetricsPanels();
+
+        if (parentSelection.length == 0) {
+            //hide/show children pane
+            d3.select("#hide").classed("hidden", true);
+            // right toggle
+            d3.select("#tutorial").classed("hidden", false);
+            d3.select("#projectDetails").classed("hidden", true);
+        } else {
+            const childrenArr = getUpdatedChildrenArr();
+            createChildrenPanel(childrenArr);
+            // getEmergencyTagArr(parentSelection, childrenArr);
+            d3.select("#hide").classed("hidden", false);
+
+            d3.select('#tutorial').classed("hidden", true);
+            d3.select('#projectDetails').classed("hidden", false);
+        }
+    });
+} //createPanelListItems
+
+
+function createChildrenPanel(arr = childrenDefaultListArr) {
+    $(".children").html('');
+    const hiddenClass = (!d3.select("#viewDetails").property("checked")) ? "hidden" : null;
+    var lis = [];
+    for (let index = 0; index < arr.length; index++) {
+        var p = (displayBy == "partner") ? getDetails("children", arr[index]) : getDetails("", arr[index])[config.Partner];
+        lis += '<li>' +
+            '<div class="item">' +
+            '<h6>' + arr[index] + '</h6>' +
+            '<div class="contenu ' + hiddenClass + '">' +
+            '<p>' + p + '</p>' +
+            '</div>' +
+            '</li>';
+    }
+    $(".children").append(lis);
+
+    $(".children li").on("click", function(d) {
+        const isSelected = $(this).hasClass('is-selected');
+        if (!isSelected) {
+            $(this).addClass('is-selected');
+        } else {
+            $(this).removeClass('is-selected');
+        }
+        updateDataFromFilters();
+        choroplethMap();
+        setUpdateKeyFigures();
+        // setMetricsPanels();
+    });
+} //createChildrenPanel
+
+
+$('#viewDetails').change(function() {
+    if (d3.select("#viewDetails").property("checked")) {
+        d3.select('.collection-item').selectAll("li")
+            .selectAll(".item")
+            .selectAll(".contenu")
+            .classed("hidden", false);
+
+        d3.select('.children').selectAll("li")
+            .selectAll(".item")
+            .selectAll(".contenu")
+            .classed("hidden", false);
+        return;
+    }
+    d3.select('.collection-item').selectAll("li")
+        .selectAll(".item")
+        .selectAll(".contenu")
+        .classed("hidden", true);
+    d3.select('.children').selectAll("li")
+        .selectAll(".item")
+        .selectAll(".contenu")
+        .classed("hidden", true);
+});
+
+function setUpdateKeyFigures(data = filteredMappingData) {
+    var partners = (displayBy == "partner") ? getSelectedItemFromUl("collection-item") : getSelectedItemFromUl("children");
+    if (partners.length == 0) {
+        partners = uniqueValues("Partner", data);
+    }
+    const countriesArr = uniqueValues("Country", data);
+    //overall
+    d3.select('.keyFigures').select('#numberOrg').text(partners.length);
+    d3.select('.keyFigures').select('#numberCountry').text(countriesArr.length);
+
+    // show reset button 
+    var partnerName = "Overview";
+    const temoin = uniqueValues("Partner", mappingData);
+    partners.length == 1 ? partnerName = getDetails("", partners[0])[config.Partner] :
+        (1 < partners.length && partners.length != temoin.length) ? partnerName = "Multiple partners" : null;
+
+    if (countrySelectedFromMap != "") {
+        console.log("number of countries shoudl be 1");
+        partnerName = countrySelectedFromMap + " > " + partnerName;
+    }
+
+    d3.select("#overview > h5").text(partnerName);
+    // d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
+    // d3.select("#overview > img").classed("hidden", false);
+} //setUpdateKeyFigures
+
+function setMetricsPanels(data = filteredMappingData) {
+    //target population
+    const targetArr = getColumnUniqueValues("Target", data);
+    var targetColors = d3.scaleSequential()
+        .domain([targetArr.length, 0])
+        .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9 
+
+    $('.target-pop').html('');
+
+    d3.select(".target-pop")
+        .selectAll("span")
+        .data(targetArr).enter()
+        .append("span")
+        .style("background", function(d, i) {
+            return targetColors(i);
+        })
+        .text(function(d) { return d; });
+
+    if (displayBy == "partner") {
+        const partners = getSelectedItemFromUl("collection-item");
+        // Project informations
+        $(".reports").html('');
+        var divReports = "";
+
+        partners.forEach(partner => {
+            var report = '<div class="project-report"><div class="partner-logo">';
+            // report +='<img src="assets/default.svg">';
+            report += '<img src="assets/default.svg"><h5>' + partner + '</h5>';
+            report += '</div>';
+
+            // project details
+            report += '<div class="projectDescription">' +
+                '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a. Adipisci ipsam, earum rem accusantium veniam in placeat nesciunt consequatur sequi consequuntur, animi debitis quis.</p>';
+            report += '</div>';
+
+            report += '<div class="contact-details"> <span>Contact</span><div>';
+            // contact details
+            var contact = "";
+            for (let index = 0; index < filteredMappingData.length; index++) {
+                const val = filteredMappingData[index];
+                if (val[config.Partner_short] == partner) {
+                    contact = '<div class="name">' + val[config.Contact_name] + '</div>' +
+                        '<div class="role">' + val[config.Contact_role] + '</div>' +
+                        '<div class="email"><i class="fa-solid fa-envelope"></i></div>';
+                    break;
+                }
+            }
+            report += contact + '</div></div>';
+
+            divReports += report + '</div>';
+        });
+
+        $('.reports').html(divReports);
+    }
+
+} //setMetricsPanels
 
 function updateViz(data) {
     const parentsArr = getUpdatedParentArr(data);
-    const childrenArr = getUpdatedChildrenArr(data);
+    // const childrenArr = getUpdatedChildrenArr(data);
 
     createPanelListItems(parentsArr);
-    createChildrenPanel(childrenArr);
+    // createChildrenPanel(childrenArr);
 
     choroplethMap(data);
-
+    setUpdateKeyFigures(data);
     setMetricsPanels(data);
 } //updateViz
 
@@ -494,7 +598,12 @@ function updateVizFromMap(iso3) {
     const childrenArr = getUpdatedChildrenArr(data);
 
     updateViz(data);
+
+    createChildrenPanel(childrenArr);
+    //hide/show children pane
+    d3.select("#hide").classed("hidden", false);
 } //updateVizFromMap
+
 
 // map js
 let isMobile = $(window).width() < 767 ? true : false;
@@ -519,12 +628,12 @@ function initiateMap() {
     width = viewportWidth - 860; //document.getElementsByClassName("map").offsetWidth;
     // height = (isMobile) ? 400 : 500;
     height = 90;
-    var mapScale = (isMobile) ? width / 5.5 : width / 1.5;
-    var mapCenter = (isMobile) ? [12, 12] : [7, 27];
+    var mapScale = (isMobile) ? width / 5.5 : width / 1.2;
+    var mapCenter = (isMobile) ? [12, 12] : [12, 17];
 
     projection = d3.geoMercator()
-        .center(mapCenter)
-        .scale(mapScale)
+        .center(mapCenter) //mapCenter
+        .scale(mapScale) //650
         .translate([width / 3.9, height / 2]);
 
     path = d3.geoPath().projection(projection);
@@ -559,12 +668,24 @@ function initiateMap() {
         .attr('stroke-width', .7)
         .attr('stroke', '#fff')
         .on("click", function(d) {
+            // fix inactive but clickage bug
+            if (d3.select(this).classed("inactive")) {
+                return;
+            }
             mapsvg.select('g').selectAll('.hasData').attr('fill', mapNotClickedColor);
             $(this).attr('fill', mapClickedColor);
             $(this).addClass('clicked');
             countrySelectedFromMap = d.properties.ISO_A3;
             updateVizFromMap(d.properties.ISO_A3);
             createMapFilterSpan(d.properties.NAME_LONG);
+            const cntryISO3 = String(d.properties.ISO_A3).toUpperCase();
+            // show reset button 
+            d3.select("#overview > h5").text(d.properties.NAME_LONG);
+            d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
+            d3.select("#overview > img").classed("hidden", false);
+            // show tutorial for now
+            d3.select("#tutorial").classed("hidden", false);
+            d3.select("#projectDetails").classed("hidden", true);
         });
 
     //country labels
@@ -617,22 +738,6 @@ function createMapFilterSpan(country) {
     }
 }
 
-function getNestedDataByColumn(col, data = filteredMappingData) {
-    var data = d3.nest()
-        .key(function(d) { return d[config[col]]; })
-        .rollup(function(d) { return d.length; })
-        .entries(data).sort(sortNestedData);
-    return data;
-} //getNestedDataByColumn
-
-function generateDataForMap(mapData = filteredMappingData) {
-    var data = d3.nest()
-        .key(function(d) { return d[config.ISO3]; })
-        .rollup(function(d) { return d.length; })
-        .entries(mapData).sort(sortNestedData);
-    return data;
-} //generateDataForMap
-
 function choroplethMap(mapData = filteredMappingData) {
     if (countrySelectedFromMap != "") {
         return;
@@ -658,3 +763,13 @@ function choroplethMap(mapData = filteredMappingData) {
     });
 
 } //choroplethMap
+
+$('.reset-map').on("click", function() {
+    resetToDefault();
+
+    // hide reset button 
+    d3.select("#overview > h5").text("Overview");
+    d3.select("#overview > img").attr("src", "");
+    d3.select("#overview > img").classed("hidden", true);
+    // d3.select("#map-filters").classed("hidden", true);
+});
