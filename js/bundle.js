@@ -1,7 +1,7 @@
 //BRR
 let geodataUrl = 'data/esar.json';
 // let fourWDataUrl = 'data/data.csv';
-let fourWDataUrl = 'https://raw.githubusercontent.com/ndongamadu/cs-kobo-scraper/main/data_regional4W.csv';
+let fourWDataUrl = 'https://raw.githubusercontent.com/collective-service/cs-kobo-scraper/main/data/data_regional_4w.csv';
 let configFileURL = 'data/config.json';
 let geomData,
     mappingData,
@@ -23,18 +23,20 @@ $(document).ready(function() {
             mappingData = data[1];
             filteredMappingData = mappingData;
             config = data[2];
-
             parentsDefaultListArr = getColumnUniqueValues("Partner_short");
-            childrenDefaultListArr = uniqueValues("Activity");
+            childrenDefaultListArr = getColumnUniqueValues("Activity");
 
             createMainFiltersTag("parentFilters");
             // createMainFiltersTag("childrenFilters", []);
             createPanelListItems();
-            // createChildrenPanel();
+            createChildrenPanel();
 
             initiateMap();
             setUpdateKeyFigures();
             setMetricsPanels();
+            // select all partner/activities by default
+            // $(".item-selections button").trigger("click");
+
             //remove loader and show vis
             $('.loader').hide();
             $('#main').css('opacity', 1);
@@ -125,8 +127,7 @@ function resetToDefault() {
     d3.select(".collection-item").selectAll("li").classed("is-selected", false);
     d3.select(".children").selectAll("li").classed("is-selected", false);
 
-    // hide children pane
-    d3.select("#hide").classed("hidden", true);
+
 
     // right toggle
     d3.select("#tutorial").classed("hidden", false);
@@ -151,11 +152,15 @@ function resetToDefault() {
     childrenDefaultListArr = getUpdatedChildrenArr();
 
     createPanelListItems();
-    // createChildrenPanel();
+    createChildrenPanel();
+    // hide children pane
+    d3.select("#hide").classed("hidden", false);
 
     choroplethMap();
     setUpdateKeyFigures();
     setMetricsPanels();
+
+    // $(".item-selections button").trigger("click");
 } //resetToDefault
 
 // Global functions 
@@ -189,6 +194,32 @@ function getColumnUniqueValues(columnName, data = filteredMappingData, splitChar
     });
     return orderedArr;
 } //getColumnUniqueValues
+
+function getColumnUniqueKeyValues(columnName, data = filteredMappingData, splitChart = "|") {
+    var returnArr = [];
+    data.forEach(element => {
+        var arr = element[config[columnName]].split(splitChart);
+        var trimedArr = arr.map(x => x.trim());
+        trimedArr.forEach(d => {
+            returnArr.includes(d.trim()) ? '' : returnArr.push(d.trim());
+        });
+    });
+    var activityCountArr = [];
+    returnArr.forEach(element => {
+        var nb = 0;
+        data.forEach(item => {
+            const vals = splitMultiValues(item[config[columnName]]);
+            for (let index = 0; index < vals.length; index++) {
+                vals[index] == element ? nb++ : null;
+            }
+        });
+        if (nb > 0) {
+            activityCountArr.push({ key: element, value: nb });
+        }
+    });
+    activityCountArr.sort(sortNestedData);
+    return activityCountArr;
+} //getColumnUniqueKeyValues
 
 // get unique column values from the data
 function uniqueValues(columnName, data = filteredMappingData) {
@@ -519,60 +550,107 @@ function setUpdateKeyFigures(data = filteredMappingData) {
 
 function setMetricsPanels(data = filteredMappingData) {
     //target population
-    const targetArr = getColumnUniqueValues("Target", data);
+    const targetArr = getColumnUniqueKeyValues("Target", data);
     var targetColors = d3.scaleSequential()
         .domain([targetArr.length, 0])
         .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9 
 
-    $('.target-pop').html('');
+    $('#target-pop').html('');
 
-    d3.select(".target-pop")
-        .selectAll("span")
-        .data(targetArr).enter()
-        .append("span")
-        .style("background", function(d, i) {
-            return targetColors(i);
-        })
-        .text(function(d) { return d; });
-
+    const targetBar = generateBarChart(targetArr);
+    var partners = [];
     if (displayBy == "partner") {
-        const partners = getSelectedItemFromUl("collection-item");
+        partners = getSelectedItemFromUl("collection-item");
         // Project informations
-        $(".reports").html('');
-        var divReports = "";
-
-        partners.forEach(partner => {
-            var report = '<div class="project-report"><div class="partner-logo">';
-            // report +='<img src="assets/default.svg">';
-            report += '<img src="assets/default.svg"><h5>' + partner + '</h5>';
-            report += '</div>';
-
-            // project details
-            report += '<div class="projectDescription">' +
-                '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a. Adipisci ipsam, earum rem accusantium veniam in placeat nesciunt consequatur sequi consequuntur, animi debitis quis.</p>';
-            report += '</div>';
-
-            report += '<div class="contact-details"> <span>Contact</span><div>';
-            // contact details
-            var contact = "";
-            for (let index = 0; index < filteredMappingData.length; index++) {
-                const val = filteredMappingData[index];
-                if (val[config.Partner_short] == partner) {
-                    contact = '<div class="name">' + val[config.Contact_name] + '</div>' +
-                        '<div class="role">' + val[config.Contact_role] + '</div>' +
-                        '<div class="email"><i class="fa-solid fa-envelope"></i></div>';
-                    break;
-                }
-            }
-            report += contact + '</div></div>';
-
-            divReports += report + '</div>';
-        });
-
-        $('.reports').html(divReports);
+    } else {
+        partners = getUpdatedChildrenArr();
     }
 
+    $(".reports").html('');
+    var divReports = "";
+
+    partners.forEach(partner => {
+        var report = '<div class="project-report"><div class="partner-logo">';
+        // report +='<img src="assets/default.svg">';
+        report += '<img src="assets/default.svg"><h5>' + partner + '</h5>';
+        report += '</div>';
+
+        // project details
+        report += '<div class="projectDescription">' +
+            '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a. Adipisci ipsam, earum rem accusantium veniam in placeat nesciunt consequatur sequi consequuntur, animi debitis quis.</p>';
+        report += '</div>';
+
+        report += '<div class="contact-details"><div>';
+        // contact details
+        var contact = "";
+        for (let index = 0; index < filteredMappingData.length; index++) {
+            const val = filteredMappingData[index];
+            if (val[config.Partner_short] == partner) {
+                contact = '<div class="name">' + val[config.Contact_name] + '</div>' +
+                    '<div class="role">' + val[config.Contact_role] + '</div>' +
+                    '<div class="email"><i class="fa-solid fa-envelope"></i></div>';
+                break;
+            }
+        }
+        report += contact + '</div></div>';
+
+        divReports += report + '</div>';
+    });
+
+    $('.reports').html(divReports);
+
 } //setMetricsPanels
+
+const barChartColor = "#798BA5";
+
+function generateBarChart(data) {
+    var xArr = ['x'],
+        yArr = ['# count'];
+    data.forEach(element => {
+        xArr.push(element.key);
+        yArr.push(element.value);
+    });
+    var chart = c3.generate({
+        bindto: '#target-pop',
+        size: {
+            height: 220,
+            // width: 100
+        },
+        data: {
+            x: 'x',
+            columns: [xArr, yArr],
+            type: 'bar'
+        },
+        bar: {
+            width: {
+                ratio: .5
+            }
+        },
+        color: {
+            pattern: [barChartColor]
+        },
+        axis: {
+            rotated: true,
+            x: {
+                type: 'category',
+                // show: false
+                tick: {
+                    centered: true,
+                    outer: false,
+                    fit: true,
+                    multiline: false
+                }
+            },
+            y: {
+                show: false
+            }
+        },
+        legend: {
+            show: false
+        }
+    });
+    return chart;
+} //generateBarChart
 
 function updateViz(data) {
     const parentsArr = getUpdatedParentArr(data);
@@ -684,7 +762,7 @@ function initiateMap() {
             d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
             d3.select("#overview > img").classed("hidden", false);
             // show tutorial for now
-            d3.select("#tutorial").classed("hidden", false);
+            d3.select("#tutorial").classed("hidden", true);
             d3.select("#projectDetails").classed("hidden", true);
         });
 
