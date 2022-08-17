@@ -35,7 +35,9 @@ $(document).ready(function() {
             setUpdateKeyFigures();
             setMetricsPanels();
             // select all partner/activities by default
-            // $(".item-selections button").trigger("click");
+            $(".item-selections button").trigger("click");
+            // select all partner/activities by default
+            $(".children-selections button").trigger("click");
 
             //remove loader and show vis
             $('.loader').hide();
@@ -144,7 +146,7 @@ function resetToDefault() {
     // $(".child h6").text(listChildTitle);
     $(".panelContentCentered h6").text(listChildTitle);
 
-    // updateDataFromFilters(); 
+    // updateDataFromFilters();
     filteredMappingData = mappingData;
 
     // updateViz();
@@ -163,7 +165,7 @@ function resetToDefault() {
     // $(".item-selections button").trigger("click");
 } //resetToDefault
 
-// Global functions 
+// Global functions
 
 function getColumnUniqueValues(columnName, data = filteredMappingData, splitChart = "|") {
     var returnArr = [];
@@ -532,7 +534,7 @@ function setUpdateKeyFigures(data = filteredMappingData) {
     d3.select('.keyFigures').select('#numberOrg').text(partners.length);
     d3.select('.keyFigures').select('#numberCountry').text(countriesArr.length);
 
-    // show reset button 
+    // show reset button
     var partnerName = "Overview";
     const temoin = uniqueValues("Partner", mappingData);
     partners.length == 1 ? partnerName = getDetails("", partners[0])[config.Partner] :
@@ -543,7 +545,7 @@ function setUpdateKeyFigures(data = filteredMappingData) {
         partnerName = countrySelectedFromMap + " > " + partnerName;
     }
 
-    d3.select("#overview > h5").text(partnerName);
+    d3.select("#overview > h1").text(partnerName);
     // d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
     // d3.select("#overview > img").classed("hidden", false);
 } //setUpdateKeyFigures
@@ -553,7 +555,7 @@ function setMetricsPanels(data = filteredMappingData) {
     const targetArr = getColumnUniqueKeyValues("Target", data);
     var targetColors = d3.scaleSequential()
         .domain([targetArr.length, 0])
-        .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9 
+        .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9
 
     $('#target-pop').html('');
 
@@ -689,7 +691,7 @@ let countriesArr = [];
 let g, mapsvg, projection, width, height, zoom, path;
 let viewportWidth = window.innerWidth;
 let currentZoom = 1;
-let mapFillColor = '#204669', //'#C2DACA',//'#2F9C67', 
+let mapFillColor = '#204669', //'#C2DACA',//'#2F9C67',
     mapInactive = '#F2F2EF',
     mapActive = '#D90368',
     hoverColor = '#D90368',
@@ -757,7 +759,7 @@ function initiateMap() {
             updateVizFromMap(d.properties.ISO_A3);
             createMapFilterSpan(d.properties.NAME_LONG);
             const cntryISO3 = String(d.properties.ISO_A3).toUpperCase();
-            // show reset button 
+            // show reset button
             d3.select("#overview > h5").text(d.properties.NAME_LONG);
             d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
             d3.select("#overview > img").classed("hidden", false);
@@ -845,7 +847,7 @@ function choroplethMap(mapData = filteredMappingData) {
 $('.reset-map').on("click", function() {
     resetToDefault();
 
-    // hide reset button 
+    // hide reset button
     d3.select("#overview > h5").text("Overview");
     d3.select("#overview > img").attr("src", "");
     d3.select("#overview > img").classed("hidden", true);

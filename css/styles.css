@@ -90,6 +90,8 @@ a {
 }
 
 ul li h6 {
+
+  margin-bottom: 0px;
 }
 
 
@@ -98,6 +100,8 @@ ul li p {
     line-height: .7rem;
     font-weight: 300;
     color: #838383;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 /* PANELS */
