@@ -237,24 +237,37 @@ ul {
 }
 
 .submit {
-    margin-top: auto;
-    display: flex;
-    justify-content: center;
+  position: relative;
 }
 
 
 
 .kobo-form {
-    display: flex;
-    align-items: center;
+    background: #2F9C67;
+    color: #FFF;
     height: 30px;
+    width: 180px;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     margin: 12px;
     cursor: pointer;
-    color: #f0473a;
+}
+.kobo-form a{
+  background: #2F9C67;
+  color: #FFF;
+  text-decoration: none;
+  background: #2F9C67;
+  color: #FFF;
+  height: 30px;
+  width: 180px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 12px;
+  cursor: pointer;
 }
 
 .fa-plus {
