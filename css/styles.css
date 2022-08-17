@@ -23,7 +23,6 @@ body {
 .main {
     display: flex;
     height: 100vh;
-    padding-bottom: 10px;
 }
 
 .panels {
@@ -32,20 +31,67 @@ body {
     justify-content: space-around;
 }
 
-h4 {
-    font-size: 1rem;
-    line-height: 1rem;
+.footer {
+  background: #000;
+  color:#FFF;
+  padding: 5px;
+  min-height:20px;
+  max-height:40px;
+}
+
+    /* HEADER */
+
+h1 {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
     font-weight: 600;
     color: #000;
     text-transform: uppercase;
 }
 
-ul li h6 {
-    font-size: .8rem;
+
+h2 {
+    font-size: 1.1rem;
+    font-weight: 100;
+    color: #555658;
+    text-transform: uppercase;
+}
+
+h4 {
+   font-size: 1rem;
+   font-weight: 700;
+   color: #555658;
+   color: #000;
+}
+
+h5 {
+   font-size: .8rem;
+   font-weight: 700;
+   color: #000;
+}
+
+h6 {
+    font-size: .7rem;
     font-weight: 500;
     text-transform: uppercase;
     color: #000;
 }
+
+  /* FONT STYLE */
+  p {
+      font-size: .7rem;
+      font-weight: 300;
+      color: #555658;
+  }
+
+a {
+    color: #204669;
+    ;
+}
+
+ul li h6 {
+}
+
 
 ul li p {
     font-size: .7rem;
@@ -53,6 +99,8 @@ ul li p {
     font-weight: 300;
     color: #838383;
 }
+
+/* PANELS */
 
 .central-area {
     display: flex;
@@ -66,7 +114,7 @@ ul li p {
 .left-panel {
     display: flex;
     flex-direction: column;
-    background: rgb(255, 255, 255, 38%);
+    background: #DBDEE6;
     box-shadow: 0 2px 12px rgb(0 0 0 / 19%);
 }
 
@@ -81,18 +129,12 @@ ul li p {
     margin-bottom: 5px;
     padding-bottom: 10px;
     /* border-bottom: 4px solid #f0473a; */
-    background: rgb(255, 255, 255, 38%);
-    box-shadow: 0 1px 1px rgb(0 0 0 / 19%);
 }
 
 .viz-head header {
     padding-bottom: 5px;
 }
 
-header p {
-    margin-bottom: 0;
-    color: #6e6e6e;
-}
 
 .viz-head span label {
     font-size: .8rem;
@@ -119,50 +161,54 @@ ul {
 }
 
 .item-list {
-    height: auto;
     overflow-y: auto;
     max-height: 50vh;
 }
 
 .content ul li,
 .childrenContent ul li {
-    margin-bottom: 12px;
-    flex-direction: column;
+  display: inline-block;
+    margin-bottom: 5px;
     padding: 6px;
     border-radius: 6px;
     /* background-color: rgb(255, 255, 255, 50%); */
-    background-color: #fff;
+    background-color: #F5F5F7;
     box-shadow: 0 2px 7px rgb(0 0 0 / 8%);
     user-select: none;
     cursor: pointer;
     position: relative;
     overflow-x: auto;
+    margin-left: 5px;
 }
 
 .item-selections,
 .children-selections {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 5px;
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:10px;
+    margin-top:-35px;
 }
 
 .item-selections button,
 .children-selections button {
-    background: 0 0;
+    background: 0;
+    border: 1px solid #C2C4C6;
+    border-radius: 5px;
     outline: 0;
-    border: none;
     cursor: pointer;
-    color: #1c99f2;
-    /* font-size: 11px; */
+    color: #555658;
+    font-size: 0.7rem;
     font-weight: 400;
-    padding: 10px;
+    margin:3px;
 }
 
 .tagLook {
     background: #78B794;
-    border: 1px solid #e6e6e6;
+    border: 1px solid #FFF;
     border-radius: 5px;
     padding: 4px;
+    margin:2px;
+    margin-left:4px;
     display: inline-block;
     box-shadow: 0 1px 3px rgb(0 0 0 / 5%);
     cursor: pointer;
@@ -175,13 +221,19 @@ ul {
 
 .collection-item>.is-selected,
 .children>.is-selected {
-    background: #eaf0f5;
-    box-shadow: 0 0 0 2px #1c99f2, 0 0 0 5px #b8daf5, 0 2px 8px rgb(0 0 0 / 40%), inset 0 0 6px rgb(0 0 0 / 30%);
+    color:#FFF;
+    background: #546B89;
+    border:1px #FFF solid;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 15%);
 }
 
 .is-selected {
-    background: #f0473a;
+    color:#FFF;
+    background: #2F9C67;
     box-shadow: #f0473a;
+}
+.is-selected h6,.is-selected  p {
+    color:#FFF;
 }
 
 .submit {
@@ -190,10 +242,7 @@ ul {
     justify-content: center;
 }
 
-a {
-    color: #f0473a;
-    ;
-}
+
 
 .kobo-form {
     display: flex;
@@ -223,7 +272,7 @@ a {
 }
 
 .top {
-    height: 60px;
+    height: 80px;
     background: rgb(255, 255, 255, 38%);
     box-shadow: 0 1px 1px rgb(0 0 0 / 19%);
 }
@@ -236,9 +285,8 @@ a {
 
 .logos {
     display: flex;
-    justify-content: center;
-    align-content: center;
-    padding: 5px;
+    justify-content:flex-start;
+    align-content: left;
     height: 45px;
 }
 
@@ -250,15 +298,7 @@ a {
     height: 35px;
 }
 
-.logos h5 {
-    justify-self: center;
-    align-self: center;
-    font-size: 1.4rem;
-    font-weight: 400;
-    color: #000;
-    margin: 0;
-    text-transform: uppercase;
-}
+
 
 .right-panel {
     display: flex;

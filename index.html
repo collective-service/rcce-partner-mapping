@@ -23,13 +23,14 @@
 </head>
 
 <body>
+
     <div class="container-fluid">
         <div class="main">
             <div class="panels fix-width">
                 <div class="left-panel panel panel-padding">
                     <div class="viz-head">
                         <header>
-                            <h4>ESAR partner mapping</h4>
+                            <h4>Filter</h4>
                             <p>Eastern and Southern Africa region RCCE partner and activity mapping.</p>
                             <p class="source">Data as of 10/06/2022</p>
                             <p></p>
@@ -51,7 +52,7 @@
                         </section>
                         <section>
                             <div class="main-filters">
-                                <span><label for="parentFilters">Emergencies</label></span>
+                                <label for="parentFilters"><h5>Emergencies</h5></label>
                                 <div class="parentFilters"></div>
                             </div>
                         </section>
@@ -60,7 +61,7 @@
                         <div class="content parent listing-pane">
                             <div class="panel-header">
                                 <div class="head">
-                                    <h6>Partners</h6>
+                                    <h5>Partners</h5>
                                 </div>
                                 <div class="item-selections">
                                     <button class="select-reset">Clear selection</button>
@@ -76,13 +77,9 @@
                                 </div>
                             </div>
                         </div>
+
                     </section>
-                    <div class="submit">
-                        <button class="submit kobo-form">
-                            <a href="https://ee.humanitarianresponse.info/x/0XpcIEM8" target="blank">
-                            <i class="fa fa-plus" aria-hidden="true"></i>Add activity</a>
-                        </button>
-                    </div>
+
                 </div>
             </div>
             <div class="central-area">
@@ -90,9 +87,10 @@
                 <div class="top panel-h panel-padding">
                     <div class="details">
                         <div class="overview">
+                          <h2>ESAR partner mapping</h2>
                             <div class="logos" id="overview">
                                 <img src="" alt="" id="logo" class="hidden">
-                                <h5>Overview</h5>
+                                <h1>Overview</h1>
                             </div>
                         </div>
                     </div>
@@ -104,7 +102,7 @@
                             <div class="panelContentCentered listing-pane">
                                 <div class="panel-header">
                                     <div class="head">
-                                        <h6>Activity List</h6>
+                                        <h5>Activity List</h5>
                                     </div>
                                     <div class="children-selections">
                                         <button class="select-reset">Clear selection</button>
@@ -177,7 +175,14 @@
                 </div>
             </div>
         </div>
+        <div class="footer">  <div class="submit">
+              <button class="submit kobo-form">
+                  <a href="https://ee.humanitarianresponse.info/x/0XpcIEM8" target="blank">
+                  <i class="fa fa-plus" aria-hidden="true"></i>Add activity</a>
+              </button>
+          </div></div>
     </div>
+
     <script type='text/javascript' src='js/bundle.js'></script>
 </body>
 
