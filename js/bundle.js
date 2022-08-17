@@ -35,9 +35,9 @@ $(document).ready(function() {
             setUpdateKeyFigures();
             setMetricsPanels();
             // select all partner/activities by default
-            $(".item-selections button").trigger("click");
+            //$(".item-selections button").trigger("click");
             // select all partner/activities by default
-            $(".children-selections button").trigger("click");
+            //$(".children-selections button").trigger("click");
 
             //remove loader and show vis
             $('.loader').hide();
@@ -162,7 +162,8 @@ function resetToDefault() {
     setUpdateKeyFigures();
     setMetricsPanels();
 
-    // $(".item-selections button").trigger("click");
+    //$(".item-selections button").trigger("click");
+  //$(".children-selections button").trigger("click");
 } //resetToDefault
 
 // Global functions
@@ -538,7 +539,7 @@ function setUpdateKeyFigures(data = filteredMappingData) {
     var partnerName = "Overview";
     const temoin = uniqueValues("Partner", mappingData);
     partners.length == 1 ? partnerName = getDetails("", partners[0])[config.Partner] :
-        (1 < partners.length && partners.length != temoin.length) ? partnerName = "Multiple partners" : null;
+        (1 < partners.length && partners.length != temoin.length) ? partnerName = "All partners" : null;
 
     if (countrySelectedFromMap != "") {
         console.log("number of countries shoudl be 1");
