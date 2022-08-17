@@ -162,7 +162,7 @@ ul {
 
 .item-list {
     overflow-y: auto;
-    max-height: 50vh;
+    height: 200px;
 }
 
 .content ul li,
