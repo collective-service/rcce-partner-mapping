@@ -162,7 +162,7 @@ ul {
 
 .item-list {
     overflow-y: auto;
-    height: 200px;
+    max-height: calc(100vh - 420px);
 }
 
 .content ul li,
@@ -315,8 +315,9 @@ ul {
 
 .right-panel {
     display: flex;
-    flex-direction: column;
+    flex-direction:row;
     justify-content: center;
+    width: 30%;
 }
 
 .central-content {
@@ -330,7 +331,7 @@ ul {
     justify-content: center;
     background: rgb(255, 255, 255, 38%);
     box-shadow: 0 2px 12px rgb(0 0 0 / 19%);
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 120px);
 }
 
 .middle {
