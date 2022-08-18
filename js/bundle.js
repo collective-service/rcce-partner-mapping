@@ -708,7 +708,7 @@ let mapScale = d3.scaleQuantize()
 function initiateMap() {
     width = viewportWidth - 860; //document.getElementsByClassName("map").offsetWidth;
     // height = (isMobile) ? 400 : 500;
-    height = 90;
+    height = 80;
     var mapScale = (isMobile) ? width / 5.5 : width / 1.2;
     var mapCenter = (isMobile) ? [12, 12] : [12, 17];
 
