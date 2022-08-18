@@ -176,13 +176,20 @@ ul {
     padding: 6px;
     border-radius: 6px;
     /* background-color: rgb(255, 255, 255, 50%); */
-    background-color: #F5F5F7;
     box-shadow: 0 2px 7px rgb(0 0 0 / 8%);
     user-select: none;
     cursor: pointer;
     position: relative;
     overflow-x: auto;
     margin-left: 5px;
+}
+
+.content ul li {
+    background-color: #F5F5F7;
+}
+
+.childrenContent ul li {
+    background-color: #DBDEE6;
 }
 
 .item-selections,
@@ -230,6 +237,7 @@ ul {
     border:1px #FFF solid;
     box-shadow: 0 2px 5px rgb(0 0 0 / 15%);
 }
+
 
 .is-selected {
     color:#FFF;
