@@ -163,7 +163,7 @@ function resetToDefault() {
     setMetricsPanels();
 
     //$(".item-selections button").trigger("click");
-  //$(".children-selections button").trigger("click");
+    //$(".children-selections button").trigger("click");
 } //resetToDefault
 
 // Global functions
@@ -568,6 +568,9 @@ function setMetricsPanels(data = filteredMappingData) {
     } else {
         partners = getUpdatedChildrenArr();
     }
+    if (countrySelectedFromMap != "") {
+        partners = (displayBy == "partner") ? getUpdatedParentArr(data) : getUpdatedChildrenArr(data);
+    }
 
     $(".reports").html('');
     var divReports = "";
@@ -599,6 +602,7 @@ function setMetricsPanels(data = filteredMappingData) {
 
         divReports += report + '</div>';
     });
+    console.log(divReports)
 
     $('.reports').html(divReports);
 
@@ -748,6 +752,10 @@ function initiateMap() {
         .attr('fill', "#fff")
         .attr('stroke-width', .7)
         .attr('stroke', '#fff')
+        .attr('class', function(d) {
+            var className = (countriesISO3Arr.includes(d.properties.ISO_A3)) ? 'hasData' : 'inactive';
+            return className;
+        })
         .on("click", function(d) {
             // fix inactive but clickage bug
             if (d3.select(this).classed("inactive")) {
@@ -766,7 +774,7 @@ function initiateMap() {
             d3.select("#overview > img").classed("hidden", false);
             // show tutorial for now
             d3.select("#tutorial").classed("hidden", true);
-            d3.select("#projectDetails").classed("hidden", true);
+            d3.select("#projectDetails").classed("hidden", false);
         });
 
     //country labels
@@ -777,6 +785,30 @@ function initiateMap() {
         .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
         .attr("dy", ".35em")
         .text(function(d) { return d.properties.NAME; });
+    // .attr('class', function(d) {
+    //     var className = (countriesISO3Arr.includes(d.properties.ISO_A3)) ? 'hasData' : 'inactive';
+    //     return className;
+    // });
+    // .on("click;", function(d) {
+    //     // fix inactive but clickage bug
+    //     if (d3.select(this).classed("inactive")) {
+    //         return;
+    //     }
+    //     mapsvg.select('g').selectAll('.hasData').attr('fill', mapNotClickedColor);
+    //     $(this).attr('fill', mapClickedColor);
+    //     $(this).addClass('clicked');
+    //     countrySelectedFromMap = d.properties.ISO_A3;
+    //     updateVizFromMap(d.properties.ISO_A3);
+    //     createMapFilterSpan(d.properties.NAME_LONG);
+    //     const cntryISO3 = String(d.properties.ISO_A3).toUpperCase();
+    //     // show reset button
+    //     d3.select("#overview > h5").text(d.properties.NAME_LONG);
+    //     d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
+    //     d3.select("#overview > img").classed("hidden", false);
+    //     // show tutorial for now
+    //     d3.select("#tutorial").classed("hidden", true);
+    //     d3.select("#projectDetails").classed("hidden", true);
+    // });
 
     choroplethMap();
 
