@@ -32,14 +32,15 @@ body {
 }
 
 .footer {
-  background: #000;
-  color:#FFF;
-  padding: 5px;
-  min-height:20px;
-  max-height:40px;
+    background: #000;
+    color: #FFF;
+    padding: 5px;
+    min-height: 20px;
+    max-height: 40px;
 }
 
-    /* HEADER */
+
+/* HEADER */
 
 h1 {
     font-size: 1.5rem;
@@ -49,7 +50,6 @@ h1 {
     text-transform: uppercase;
 }
 
-
 h2 {
     font-size: 1.1rem;
     font-weight: 100;
@@ -58,16 +58,16 @@ h2 {
 }
 
 h4 {
-   font-size: 1rem;
-   font-weight: 700;
-   color: #555658;
-   color: #000;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #555658;
+    color: #000;
 }
 
 h5 {
-   font-size: .8rem;
-   font-weight: 700;
-   color: #000;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #000;
 }
 
 h6 {
@@ -77,12 +77,14 @@ h6 {
     color: #000;
 }
 
-  /* FONT STYLE */
-  p {
-      font-size: .7rem;
-      font-weight: 300;
-      color: #555658;
-  }
+
+/* FONT STYLE */
+
+p {
+    font-size: .7rem;
+    font-weight: 300;
+    color: #555658;
+}
 
 a {
     color: #204669;
@@ -90,10 +92,8 @@ a {
 }
 
 ul li h6 {
-
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
-
 
 ul li p {
     font-size: .7rem;
@@ -103,6 +103,7 @@ ul li p {
     margin-top: 3px;
     margin-bottom: 3px;
 }
+
 
 /* PANELS */
 
@@ -139,7 +140,6 @@ ul li p {
     padding-bottom: 5px;
 }
 
-
 .viz-head span label {
     font-size: .8rem;
     font-weight: 400;
@@ -171,7 +171,7 @@ ul {
 
 .content ul li,
 .childrenContent ul li {
-  display: inline-block;
+    display: inline-block;
     margin-bottom: 5px;
     padding: 6px;
     border-radius: 6px;
@@ -194,10 +194,10 @@ ul {
 
 .item-selections,
 .children-selections {
-    display:flex;
-    justify-content:flex-end;
-    margin-bottom:10px;
-    margin-top:-35px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-top: -35px;
 }
 
 .item-selections button,
@@ -210,7 +210,7 @@ ul {
     color: #555658;
     font-size: 0.7rem;
     font-weight: 400;
-    margin:3px;
+    margin: 3px;
 }
 
 .tagLook {
@@ -218,8 +218,8 @@ ul {
     border: 1px solid #FFF;
     border-radius: 5px;
     padding: 4px;
-    margin:2px;
-    margin-left:4px;
+    margin: 2px;
+    margin-left: 4px;
     display: inline-block;
     box-shadow: 0 1px 3px rgb(0 0 0 / 5%);
     cursor: pointer;
@@ -232,24 +232,25 @@ ul {
 
 .collection-item>.is-selected,
 .children>.is-selected {
-    color:#FFF;
+    color: #FFF;
     background: #546B89;
-    border:1px #FFF solid;
+    border: 1px #FFF solid;
     box-shadow: 0 2px 5px rgb(0 0 0 / 15%);
 }
 
-
 .is-selected {
-    color:#FFF;
+    color: #FFF;
     background: #2F9C67;
     box-shadow: #f0473a;
 }
-.is-selected h6,.is-selected  p {
-    color:#FFF;
+
+.is-selected h6,
+.is-selected p {
+    color: #FFF;
 }
 
 .submit {
-  position: relative;
+    position: relative;
 }
 
 .kobo-form {
@@ -264,20 +265,21 @@ ul {
     margin: 12px;
     cursor: pointer;
 }
-.kobo-form a{
-  background: #2F9C67;
-  color: #FFF;
-  text-decoration: none;
-  background: #2F9C67;
-  color: #FFF;
-  height: 30px;
-  width: 180px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 12px;
-  cursor: pointer;
+
+.kobo-form a {
+    background: #2F9C67;
+    color: #FFF;
+    text-decoration: none;
+    background: #2F9C67;
+    color: #FFF;
+    height: 30px;
+    width: 180px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 12px;
+    cursor: pointer;
 }
 
 .fa-plus {
@@ -295,19 +297,20 @@ ul {
 
 .top {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     height: 80px;
     background: rgb(255, 255, 255, 38%);
     box-shadow: 0 1px 1px rgb(0 0 0 / 19%);
 }
-.title {
-width: 75%;
 
+.title {
+    flex: 1;
 }
+
 .keyFigures {
-  display: flex;
-  justify-content:flex-end;
-  min-width: 300px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .overview {
@@ -318,7 +321,7 @@ width: 75%;
 
 .logos {
     display: flex;
-    justify-content:flex-start;
+    justify-content: flex-start;
     align-content: left;
     height: 45px;
 }
@@ -331,11 +334,9 @@ width: 75%;
     height: 35px;
 }
 
-
-
 .right-panel {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     justify-content: center;
     min-width: 250px;
     width: 30%;
@@ -357,8 +358,8 @@ width: 75%;
 
 .middle {
     flex: 1;
-    padding:0px;
-    margin:0px;
+    padding: 0px;
+    margin: 0px;
 }
 
 .extreme-right-panel {
@@ -371,11 +372,11 @@ width: 75%;
 
 .figures {
     display: flex;
-    justify-content:flex-started;
+    justify-content: flex-started;
 }
 
 .figure {
-    margin:15px;
+    margin: 15px;
     text-align: center;
 }
 
