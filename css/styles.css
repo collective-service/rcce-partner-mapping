@@ -368,6 +368,7 @@ ul {
     /* justify-content: center; */
     background: rgb(255, 255, 255, 38%);
     box-shadow: 0 2px 12px rgb(0 0 0 / 19%);
+    gap: 10px;
 }
 
 .figures {
@@ -415,9 +416,9 @@ g.c3-axis text {
 }
 
 .orgActDetails {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
     /* background: rgb(255, 255, 255, 38%);
     box-shadow: 0 2px 12px rgb(0 0 0 / 19%); */
     height: auto;
@@ -429,15 +430,17 @@ g.c3-axis text {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100%;
     /* max-height: calc(100vh - 100px); */
     /* max-height: 85vh; */
 }
 
-.reports {
+
+/* .reports {
     height: auto;
     overflow-y: auto;
     padding: 8px;
-}
+} */
 
 .project-report {
     display: flex;

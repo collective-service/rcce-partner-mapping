@@ -583,7 +583,7 @@ function setMetricsPanels(data = filteredMappingData) {
 
         // project details
         report += '<div class="projectDescription">' +
-            '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a. Adipisci ipsam, earum rem accusantium veniam in placeat nesciunt consequatur sequi consequuntur, animi debitis quis.</p>';
+            '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a.</p>';
         report += '</div>';
 
         report += '<div class="contact-details"><div>';
@@ -620,7 +620,7 @@ function generateBarChart(data) {
     var chart = c3.generate({
         bindto: '#target-pop',
         size: {
-            height: 220,
+            height: 200,
             // width: 100
         },
         data: {
