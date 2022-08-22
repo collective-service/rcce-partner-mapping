@@ -140,11 +140,11 @@ function resetToDefault() {
     // createMapFilterSpan();
     $(".map-filter").html("");
 
-    const listParentTitle = displayBy == "activity" ? "Activity list" : "Partner list";
-    const listChildTitle = displayBy == "activity" ? "Partner list" : "Activity list";
-    $(".parent h6").text(listParentTitle);
+    const listParentTitle = displayBy == "activity" ? "Activities" : "Partners";
+    const listChildTitle = displayBy == "activity" ? "Partners" : "Activities";
+    $(".parent h5").text(listParentTitle);
     // $(".child h6").text(listChildTitle);
-    $(".panelContentCentered h6").text(listChildTitle);
+    $(".panelContentCentered h5").text(listChildTitle);
 
     // updateDataFromFilters();
     filteredMappingData = mappingData;
@@ -556,7 +556,7 @@ function setMetricsPanels(data = filteredMappingData) {
     const targetArr = getColumnUniqueValues("Target", data);
     var targetColors = d3.scaleSequential()
         .domain([targetArr.length, 0])
-        .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9
+        .interpolator(d3.interpolate("#E996AD", "#D90368")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9
 
     $('#target-pop').html('');
     // const targetBar = generateBarChart(targetArr);
@@ -564,9 +564,9 @@ function setMetricsPanels(data = filteredMappingData) {
     $('#target-pop').html('');
 
     d3.select("#target-pop")
-        .selectAll("span")
+        .selectAll("li")
         .data(targetArr).enter()
-        .append("span")
+        .append("li")
         .style("background", function(d, i) {
             return targetColors(i);
         })

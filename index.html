@@ -29,27 +29,23 @@
             <div class="panels fix-width">
                 <div class="left-panel panel panel-padding">
                     <div class="viz-head">
+                      <section>
+                          <div class="dropdown flexCol">
+                              <span><label for="displayBySelect">Display by</label></span>
+                              <select id="displayBySelect">
+                                  <option value="partner" selected>Partner</option>
+                                  <option value="activity">Activity</option>
+                              </select>
+                          </div>
+
+                      </section>
                         <header>
-                            <div class="submit">
-                                <button class="submit kobo-form">
-                                    <a href="https://ee.humanitarianresponse.info/x/0XpcIEM8" target="blank">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>Add activity</a>
-                                </button>
-                            </div>
+
                             <h4>Filter</h4>
 
                             <p></p>
                         </header>
-                        <section>
-                            <div class="dropdown flexCol">
-                                <span><label for="displayBySelect">Display by</label></span>
-                                <select id="displayBySelect">
-                                    <option value="partner" selected>Partner</option>
-                                    <option value="activity">Activity</option>
-                                </select>
-                            </div>
 
-                        </section>
                         <section>
                             <div class="main-filters">
                                 <label for="parentFilters"><h5>Emergencies</h5></label>
@@ -82,6 +78,12 @@
                                         <ul class="collection-item"></ul>
                                     </main>
                                 </div>
+                            </div>
+                            <div class="submit">
+                                <button class="submit kobo-form">
+                                    <a href="https://ee.humanitarianresponse.info/x/0XpcIEM8" target="blank">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>Add activity</a>
+                                </button>
                             </div>
                         </div>
 
@@ -159,6 +161,7 @@
                         <section>
                             <div class="Country metrics" id="metrics">
                                 <h4>Details</h4>
+                                <h5>Audience</h5>
                                 <div class="chart">
                                     <div id="target-pop"></div>
                                 </div>
@@ -166,11 +169,11 @@
                         </section>
                         <div class="orgActDetails panel-padding">
                             <div id="tutorial">
-                                <h6>Get started</h6>
+                                <h5>GET STARTED</h5>
                                 <ol>
-                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium commodi magnam illo odio</li>
-                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium commodi magnam illo odio</li>
-                                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium commodi magnam illo odio</li>
+                                    <li><strong>USE FILTERS</strong> to narrow your selection</li>
+                                    <li><strong>SELECT</strong> one or more Partners / Activities if needed</li>
+                                    <li><strong>CLICK ON THE MAP</strong> to zoom on country details</li>
                                 </ol>
                             </div>
                             <div class="hidden" id="projectDetails">

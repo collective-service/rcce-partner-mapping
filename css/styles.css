@@ -60,9 +60,11 @@ h2 {
 
 h4 {
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 300;
     color: #555658;
-    color: #000;
+    text-transform:uppercase;
+    padding-bottom:5px;
+    border-bottom:1px solid #fff;
 }
 
 h5 {
@@ -144,19 +146,32 @@ ul li p {
 .viz-head span label {
     font-size: .8rem;
     font-weight: 400;
-    color: #000;
+    color:#555658;
+    font-size: .7rem;
+    font-weight: 300;
 }
 
 .panel-header .head {
     padding: 8px;
-    padding-left: 12px;
+    padding-left: 0px;
+}
+
+.central-content .panel-header .head {
+    padding: 8px;
 }
 
 .dropdown select {
     width: 90%;
     height: 30px;
     outline: none;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color:#E9F1EA;
+    background: #2F9C67;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+
 }
 
 ul {
@@ -167,15 +182,14 @@ ul {
 
 .item-list {
     overflow-y: auto;
-    max-height: calc(100vh - 420px);
+    max-height: calc(100vh - 320px);
 }
 
 .content ul li,
 .childrenContent ul li {
-    display: inline-block;
     margin-bottom: 5px;
     padding: 6px;
-    border-radius: 6px;
+    border-radius: 5px;
     /* background-color: rgb(255, 255, 255, 50%); */
     box-shadow: 0 2px 7px rgb(0 0 0 / 8%);
     user-select: none;
@@ -186,6 +200,7 @@ ul {
 }
 
 .content ul li {
+    display: inline-block;
     background-color: #F5F5F7;
 }
 
@@ -497,15 +512,19 @@ g.c3-axis text {
     color: #000;
 }
 
-#target-pop {
-    display: flex;
+#target-pop li{
+    display: inline-block;
     flex-direction: column;
 }
 
-#target-pop span {
+#target-pop li {
+    font-size:0.8rem ;
     color: #fff;
-    margin: 3px 0;
-    padding: 0 5px
+    margin: 2px;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+    padding-left:5px;
+    padding-right:5px;
 }
 
 
