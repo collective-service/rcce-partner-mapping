@@ -22,7 +22,8 @@ body {
 
 .main {
     display: flex;
-    height: 100vh;
+    height: 97vh;
+    overflow: hidden;
 }
 
 .panels {
@@ -342,10 +343,11 @@ ul {
     width: 30%;
 }
 
-.central-content {
+
+/* .central-content {
     height: auto;
-    overflow-y: auto;
-}
+    overflow: hidden;
+} */
 
 .panelContentCentered {
     display: flex;
@@ -493,6 +495,17 @@ g.c3-axis text {
     font-weight: 600;
     text-transform: uppercase;
     color: #000;
+}
+
+#target-pop {
+    display: flex;
+    flex-direction: column;
+}
+
+#target-pop span {
+    color: #fff;
+    margin: 3px 0;
+    padding: 0 5px
 }
 
 

@@ -542,7 +542,6 @@ function setUpdateKeyFigures(data = filteredMappingData) {
         (1 < partners.length && partners.length != temoin.length) ? partnerName = "All partners" : null;
 
     if (countrySelectedFromMap != "") {
-        console.log("number of countries shoudl be 1");
         partnerName = countrySelectedFromMap + " > " + partnerName;
     }
 
@@ -553,14 +552,26 @@ function setUpdateKeyFigures(data = filteredMappingData) {
 
 function setMetricsPanels(data = filteredMappingData) {
     //target population
-    const targetArr = getColumnUniqueKeyValues("Target", data);
+    // const targetArr = getColumnUniqueKeyValues("Target", data);
+    const targetArr = getColumnUniqueValues("Target", data);
     var targetColors = d3.scaleSequential()
         .domain([targetArr.length, 0])
         .interpolator(d3.interpolate("#FFF5F0", "#EE3224")); //d3.interpolateRgb("red", "blue")(0.5) //d3.interpolatePuRd fdebe9
 
     $('#target-pop').html('');
+    // const targetBar = generateBarChart(targetArr);
 
-    const targetBar = generateBarChart(targetArr);
+    $('#target-pop').html('');
+
+    d3.select("#target-pop")
+        .selectAll("span")
+        .data(targetArr).enter()
+        .append("span")
+        .style("background", function(d, i) {
+            return targetColors(i);
+        })
+        .text(function(d) { return d; });
+
     var partners = [];
     if (displayBy == "partner") {
         partners = getSelectedItemFromUl("collection-item");
@@ -602,7 +613,6 @@ function setMetricsPanels(data = filteredMappingData) {
 
         divReports += report + '</div>';
     });
-    console.log(divReports)
 
     $('.reports').html(divReports);
 
