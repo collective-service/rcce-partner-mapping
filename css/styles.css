@@ -206,6 +206,7 @@ ul {
 
 .childrenContent ul li {
     background-color: #DBDEE6;
+    min-width: 200px;
 }
 
 .item-selections,
@@ -544,7 +545,7 @@ g.c3-axis text {
     position: absolute;
     /* right: 290px;
     top: 100px; */
-    right: 300px;
+    right: 270px;
     display: grid;
     grid-gap: 5px;
 }
