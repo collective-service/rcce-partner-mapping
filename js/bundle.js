@@ -538,11 +538,15 @@ function setUpdateKeyFigures(data = filteredMappingData) {
     // show reset button
     var partnerName = "Overview";
     const temoin = uniqueValues("Partner", mappingData);
+    console.log(partners)
+    console.log(temoin)
     partners.length == 1 ? partnerName = getDetails("", partners[0])[config.Partner] :
-        (1 < partners.length && partners.length != temoin.length) ? partnerName = "All partners" : null;
+        (1 < partners.length && partners.length < temoin.length) ? partnerName = "multiple partners" : null;
 
     if (countrySelectedFromMap != "") {
-        partnerName = countrySelectedFromMap + " > " + partnerName;
+        if (getSelectedItemFromUl("collection-item").length != 0) {
+            partnerName = countrySelectedFromMapName + " > " + partnerName;
+        } else partnerName = countrySelectedFromMapName;
     }
 
     d3.select("#overview > h1").text(partnerName);
@@ -712,7 +716,9 @@ let mapFillColor = '#204669', //'#C2DACA',//'#2F9C67',
     hoverColor = '#D90368',
     mapNotClickedColor = "#E9F1EA",
     mapClickedColor = "#f0473a";
-let countrySelectedFromMap = "";
+let countrySelectedFromMap = "",
+    countrySelectedFromMapName = "";
+
 // let mapColorRange = ['#fdebe9', '#fac2bd', '#f79992', '#f37066', '#f0473a'];
 let mapColorRange = ['#E9F1EA', '#C2DACA', '#9EC8AE', '#78B794', '#2F9C67'];
 let mapScale = d3.scaleQuantize()
@@ -775,11 +781,12 @@ function initiateMap() {
             $(this).attr('fill', mapClickedColor);
             $(this).addClass('clicked');
             countrySelectedFromMap = d.properties.ISO_A3;
+            countrySelectedFromMapName = d.properties.NAME;
             updateVizFromMap(d.properties.ISO_A3);
             createMapFilterSpan(d.properties.NAME_LONG);
             const cntryISO3 = String(d.properties.ISO_A3).toUpperCase();
             // show reset button
-            d3.select("#overview > h5").text(d.properties.NAME_LONG);
+            // d3.select("#overview > h5").text(d.properties.NAME);
             d3.select("#overview > img").attr("src", "assets/flags/" + cntryISO3 + ".svg");
             d3.select("#overview > img").classed("hidden", false);
             // show tutorial for now
