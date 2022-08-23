@@ -577,6 +577,11 @@ g.c3-axis text {
     outline: 0;
 }
 
+.reset-map-btn {
+    align-self: end;
+    padding-bottom: 5px;
+}
+
 .reset-map-btn button {
     /* position: relative;
     left: calc(100% - 58px);
@@ -594,8 +599,6 @@ top:-80px;
     border-radius: 5px;
     padding-right: 10px!important;
     width: 58px;
-    align-self: end;
-    padding-bottom: 5px;
 }
 
 .reset-map-btn button:hover,
