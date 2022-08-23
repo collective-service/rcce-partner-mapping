@@ -29,20 +29,19 @@
             <div class="panels fix-width">
                 <div class="left-panel panel panel-padding">
                     <div class="viz-head">
-                      <section>
-                          <div class="dropdown flexCol">
-                              <span><label for="displayBySelect">Display by</label></span>
-                              <select id="displayBySelect">
+                        <section>
+                            <div class="dropdown flexCol">
+                                <span><label for="displayBySelect">Display by</label></span>
+                                <select id="displayBySelect">
                                   <option value="partner" selected>Partner</option>
                                   <option value="activity">Activity</option>
                               </select>
-                          </div>
+                            </div>
 
-                      </section>
+                        </section>
                         <header>
 
                             <h4>Filter</h4>
-
                             <p></p>
                         </header>
 
@@ -105,6 +104,9 @@
 
                     </div>
                     <div class="keyFigures metrics" id="metrics">
+                        <div class="reset-map-btn" id="map-filters">
+                            <button class="reset-map">Reset</button>
+                        </div>
                         <div class="figures">
                             <div class="figure">
                                 <div id="numberOrg" class="number"></div>
@@ -146,9 +148,9 @@
                     <div class="middle panel-padding">
                         <div class="map">
                             <div id="map">
-                              <div class="reset-map-btn" id="map-filters">
-                                  <button class="reset-map">Reset</button>
-                              </div>
+                                <!-- <div class="reset-map-btn" id="map-filters">
+                                    <button class="reset-map">Reset</button>
+                                </div> -->
                                 <div class="zoom-controls">
                                     <button id="zoom_in">+</button>
                                     <button id="zoom_out">-</button>

@@ -32,7 +32,8 @@ body {
     justify-content: space-around;
 }
 
-.footer, .footer a{
+.footer,
+.footer a {
     background: #000;
     color: #FFF;
     padding: 5px;
@@ -62,9 +63,9 @@ h4 {
     font-size: 1rem;
     font-weight: 300;
     color: #555658;
-    text-transform:uppercase;
-    padding-bottom:5px;
-    border-bottom:1px solid #fff;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #fff;
 }
 
 h5 {
@@ -146,7 +147,7 @@ ul li p {
 .viz-head span label {
     font-size: .8rem;
     font-weight: 400;
-    color:#555658;
+    color: #555658;
     font-size: .7rem;
     font-weight: 300;
 }
@@ -167,11 +168,10 @@ ul li p {
     margin-bottom: 20px;
     font-size: 1rem;
     font-weight: 700;
-    color:#E9F1EA;
+    color: #E9F1EA;
     background: #2F9C67;
     border: 1px solid #FFF;
     border-radius: 5px;
-
 }
 
 ul {
@@ -513,19 +513,19 @@ g.c3-axis text {
     color: #000;
 }
 
-#target-pop li{
+#target-pop li {
     display: inline-block;
     flex-direction: column;
 }
 
 #target-pop li {
-    font-size:0.8rem ;
+    font-size: 0.8rem;
     color: #fff;
     margin: 2px;
     border: 1px solid #FFF;
     border-radius: 5px;
-    padding-left:5px;
-    padding-right:5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 
@@ -578,11 +578,11 @@ g.c3-axis text {
 }
 
 .reset-map-btn button {
-position: relative;
+    /* position: relative;
     left: calc(100% - 58px);
 top:-80px;
   bottom:10px;
-    width: 45px;
+    width: 45px; */
     text-transform: uppercase;
     font-size: .7rem;
     font-weight: 600;
@@ -592,8 +592,10 @@ top:-80px;
     color: #f0473a;
     border: 1px solid #f0473a;
     border-radius: 5px;
-    padding-right:10px!important;
-    width:58px;
+    padding-right: 10px!important;
+    width: 58px;
+    align-self: end;
+    padding-bottom: 5px;
 }
 
 .reset-map-btn button:hover,
