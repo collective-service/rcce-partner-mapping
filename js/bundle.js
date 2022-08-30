@@ -597,9 +597,9 @@ function setMetricsPanels(data = filteredMappingData) {
         report += '</div>';
 
         // project details
-        report += '<div class="projectDescription">' +
-            '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a.</p>';
-        report += '</div>';
+        //report += '<div class="projectDescription">' +
+        //    '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ipsa, eius ex corrupti totam a.</p>';
+        //report += '</div>';
 
         report += '<div class="contact-details"><div>';
         // contact details

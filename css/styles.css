@@ -498,6 +498,7 @@ g.c3-axis text {
     justify-content: space-between;
     align-content: center;
     gap: 5px;
+    margin-left: 38px;
 }
 
 .contact-details span {
